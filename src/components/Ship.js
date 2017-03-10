@@ -28,7 +28,7 @@ export default class Ship extends MoveableObject {
 
 	listenToMoveShip = () =>
 			keyChange$
-				.map(keyCode => this.convertLeftRightToInt(keyCode))
+				.map(this.convertLeftRightToInt)
 				.filter(change => change !== 0)
 				.scan((acc, change) => this.keepInBounds(acc, (acc+change), 10), this.left)
 				.subscribe(left => {
@@ -36,11 +36,13 @@ export default class Ship extends MoveableObject {
 					this.render()
 				})
 
+	isAFireKey = code => [13, 32, 38].indexOf(code) !== -1
+
 	listenToFire = () => {
 		let cycle = -1
 		const letters = 'PING'.split('')
 		keyChange$
-			.filter(code => code === 38)
+			.filter(this.isAFireKey)
 			.throttle(() => Rx.Observable.interval(200))
 			.subscribe(() => {
 				if (cycle >= letters.length - 1) {
