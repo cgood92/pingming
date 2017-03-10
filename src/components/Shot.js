@@ -3,9 +3,9 @@ import Rx from 'rxjs/Rx';
 import MoveableObject from './MoveableObject'
 
 export default class Shot extends MoveableObject {
-	constructor(letter, left, ming) {
+	constructor(letter, left, game) {
 		super(null, left, 100)
-		this.ming = ming
+		this.game = game
 		this.domRepresentation = this.createDom(letter)
 		this.fire()
 	}
@@ -27,7 +27,7 @@ export default class Shot extends MoveableObject {
 			.subscribe(top => {
 				this.top = top
 				this.render()
-				if (this.isCollidingWith(this.ming)) {
+				if (this.isCollidingWith(this.game.ming)) {
 					observer.unsubscribe()
 					this.die()
 				}
@@ -35,7 +35,7 @@ export default class Shot extends MoveableObject {
 	}
 
 	die = () => {
-		this.ming.die()
+		this.game.die()
 		document.querySelector('.field').removeChild(this.domRepresentation)
 	}
 }

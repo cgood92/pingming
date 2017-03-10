@@ -6,13 +6,20 @@ import Shot from './Shot'
 import { keyChange$ } from '../util/common'
 
 export default class Ship extends MoveableObject {
-	constructor(ming) {
+	constructor(game) {
 		super(document.getElementById('ship'), 50, 0)
-		this.ming = ming
+		this.game = game
 
 		// Setup listeners
-		this.listenToMoveShip()
-		this.listenToFire()
+		this.subscribe()
+	}
+
+	subscribe = () => {
+		this.observables = [this.listenToMoveShip(), this.listenToFire()]
+	}
+
+	unsubscribe = () => {
+		this.observables.forEach($ => $.unsubscribe())
 	}
 
 	convertLeftRightToInt = code => {
@@ -51,5 +58,11 @@ export default class Ship extends MoveableObject {
 				cycle++
 				new Shot(letters[cycle], this.left, this.ming)
 			})
+	die = () => {
+		this.unsubscribe()
+	}
+
+	reset = () => {
+		this.subscribe()
 	}
 }

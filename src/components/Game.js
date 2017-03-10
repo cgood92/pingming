@@ -9,7 +9,7 @@ export default class Game {
 
 		// Create the game pieces
 		this.ming = new Ming(this)
-		this.ship = new Ship(this.ming)
+		this.ship = new Ship(this)
 	}
 
 	showMenu = () => {
@@ -20,8 +20,14 @@ export default class Game {
 		this.menu.classList.add('hidden')
 	}
 
+	die = () => {
+		this.ming.die()
+		this.ship.die()
+	}
+
 	start = () => {
 		this.hideMenu()
 		this.ming.reset()
+		this.ship.reset()
 	}
 }
