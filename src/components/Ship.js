@@ -68,7 +68,7 @@ export default class Ship extends MoveableObject {
 		if (this.cycle >= letters.length - 1) {
 			this.cycle = -1
 		}
-		return ++this.cycle
+		return letters[++this.cycle]
 	}
 
 	isAFireKey = code => [13, 32, 38].indexOf(code) !== -1
