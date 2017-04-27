@@ -63,12 +63,13 @@ export default class Ship extends MoveableObject {
 	}
 
 	getLetter = () => {
-		this.cycle = this.cycle || -1
+		this.cycle = this.cycle === undefined ? -1 : this.cycle
 		const letters = 'PING'.split('')
 		if (this.cycle >= letters.length - 1) {
 			this.cycle = -1
 		}
-		return letters[++this.cycle]
+		this.cycle = this.cycle + 1
+		return letters[this.cycle]
 	}
 
 	isAFireKey = code => [13, 32, 38].indexOf(code) !== -1
